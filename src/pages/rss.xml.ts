@@ -53,7 +53,7 @@ export async function GET(context: APIContext) {
 	return rss({
 		title: siteConfig.title,
 		description: siteConfig.subtitle || "No description",
-		site: context.site ?? "",
+		site: context.site ?? context.url.origin,
 		customData: `<templateTheme>Hiensou</templateTheme>
 		<templateThemeVersion>${pkg.version}</templateThemeVersion>
 		<templateThemeUrl>https://github.com/Rouming-FEI/Hiensou</templateThemeUrl>
