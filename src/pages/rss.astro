@@ -110,36 +110,36 @@ const recentPosts = posts.slice(0, 6);
         function initRssCopy() {
             const copyBtn = document.getElementById('copy-rss-btn');
             if (!copyBtn) return;
-            
+
             // 移除旧的事件监听器（通过克隆节点的方式）
-            const newBtn = copyBtn.cloneNode(true);
+            const newBtn = copyBtn.cloneNode(true) as HTMLButtonElement;
             copyBtn.parentNode?.replaceChild(newBtn, copyBtn);
-            
+
             // 绑定新的事件监听器
-            newBtn.addEventListener('click', async function() {
-                const url = this.getAttribute('data-url');
+            newBtn.addEventListener('click', async () => {
+                const url = newBtn.getAttribute('data-url');
                 if (!url) return;
                 try {
                     await navigator.clipboard.writeText(url);
-                    const originalText = this.textContent;
-                    this.textContent = this.getAttribute('data-copied-text') || '';
-                    this.style.backgroundColor = 'var(--success-color, #10b981)';
-                    
+                    const originalText = newBtn.textContent;
+                    newBtn.textContent = newBtn.getAttribute('data-copied-text') || '';
+                    newBtn.style.backgroundColor = 'var(--success-color, #10b981)';
+
                     setTimeout(() => {
-                        this.textContent = originalText;
-                        this.style.backgroundColor = '';
+                        newBtn.textContent = originalText;
+                        newBtn.style.backgroundColor = '';
                     }, 2000);
                 } catch (err) {
                     console.error('复制失败:', err);
-                    const originalText = this.textContent;
-                    this.textContent = this.getAttribute('data-failed-text') || '';
+                    const originalText = newBtn.textContent;
+                    newBtn.textContent = newBtn.getAttribute('data-failed-text') || '';
                     setTimeout(() => {
-                        this.textContent = originalText;
+                        newBtn.textContent = originalText;
                     }, 2000);
                 }
             });
         }
-        
+
         // 立即初始化（支持直接访问页面和刷新）
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initRssCopy);
@@ -147,10 +147,10 @@ const recentPosts = posts.slice(0, 6);
             // DOM 已加载，直接初始化
             setTimeout(initRssCopy, 0);
         }
-        
+
         // 支持 Swup 客户端路由（如果存在）
-        if (typeof window !== 'undefined' && (window as any).swup) {
-            (window as any).swup.hooks.on('content:replace', () => {
+        if (typeof window !== 'undefined' && window.swup) {
+            window.swup.hooks.on('content:replace', () => {
                 // 延迟执行以确保 DOM 已更新
                 setTimeout(initRssCopy, 100);
             });
