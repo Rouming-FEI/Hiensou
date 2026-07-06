@@ -24,9 +24,7 @@ declare global {
 		toggleFloatingTOC: () => void;
 		tocInternalNavigation: boolean;
 		// swup is defined in global.d.ts
-		// biome-ignore lint/suspicious/noExplicitAny: External library without types
-		spine: any;
-		closeAnnouncement: () => void;
+closeAnnouncement: () => void;
 		// __hiensouMusic type is defined in global.d.ts
 		semifullScrollHandler?: (() => void) | undefined;
 		initSemifullScrollDetection?: () => void;
