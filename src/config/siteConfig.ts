@@ -12,7 +12,7 @@ export const siteConfig: SiteConfig = {
 	subtitle: "废江流の私域",
 
 	// 站点 URL
-	site_url: "https://hiensou.cuteleaf.cn",
+	site_url: "",
 
 	// 站点描述
 	description: "",

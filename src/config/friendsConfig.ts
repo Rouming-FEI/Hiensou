@@ -27,16 +27,16 @@ export const friendsConfig: FriendLink[] = [
 	// 	imgurl:
 	// 		"https://weavatar.com/avatar/d252655d40d6874417a720bad0a6c5f77f8f6a1fd2f882f8f338402dc37e4190?s=640",
 	// 	desc: "飞萤之火自无梦的长夜亮起，绽放在终竟的明天。",
-	// 	siteurl: "https://blog.cuteleaf.cn",
+	// 	siteurl: "https://blog.example.com",
 	// 	tags: ["Blog"],
 	// 	weight: 10, // 权重，数字越大排序越靠前
 	// 	enabled: true, // 是否启用
 	// },
 	// {
 	// 	title: "Hiensou Docs",
-	// 	imgurl: "https://docs-hiensou.cuteleaf.cn/logo.png",
+	// 	imgurl: "https://docs.example.com/logo.png",
 	// 	desc: "Hiensou主题模板文档",
-	// 	siteurl: "https://docs-hiensou.cuteleaf.cn",
+	// 	siteurl: "https://docs.example.com",
 	// 	tags: ["Docs"],
 	// 	weight: 9,
 	// 	enabled: true,

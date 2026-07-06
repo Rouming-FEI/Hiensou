@@ -81,7 +81,7 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 			},
 			// {
 			// 	name: "Hiensou文档",
-			// 	url: "https://docs-hiensou.cuteleaf.cn",
+			// 	url: "https://docs-hiensou.example.com",
 			// 	external: true,
 			// 	icon: "material-symbols:docs",
 			// },
@@ -108,7 +108,7 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 	// 文档链接
 	// links.push({
 	// 	name: "文档",
-	// 	url: "https://docs-hiensou.cuteleaf.cn",
+	// 	url: "https://docs-hiensou.example.com",
 	// 	external: true,
 	// 	icon: "material-symbols:docs",
 	// });

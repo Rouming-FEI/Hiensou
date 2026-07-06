@@ -53,7 +53,7 @@ export async function GET(context: APIContext) {
 	return rss({
 		title: siteConfig.title,
 		description: siteConfig.subtitle || "No description",
-		site: context.site ?? "https://hiensou.cuteleaf.cn",
+		site: context.site ?? "",
 		customData: `<templateTheme>Hiensou</templateTheme>
 		<templateThemeVersion>${pkg.version}</templateThemeVersion>
 		<templateThemeUrl>https://github.com/CuteLeaf/Hiensou</templateThemeUrl>
