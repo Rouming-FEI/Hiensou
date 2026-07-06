@@ -63,7 +63,7 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 			},
 			// {
 			// 	name: "Gitee",
-			// 	url: "https://gitee.com/CuteLeaf/Hiensou",
+			// 	url: "https://gitee.com/Rouming-FEI/Hiensou",
 			// 	external: true,
 			// 	icon: "fa7-brands:gitee",
 			// },
