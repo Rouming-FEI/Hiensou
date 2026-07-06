@@ -129,7 +129,7 @@ export const spineModelConfig: SpineModelConfig = {
 
 您可以从以下渠道获取或制作 Spine 模型：
 - [Spine官方网站](http://esotericsoftware.com/)
-- 各种开源 Live2D/Spine 模型资源
+- 各种开源 Spine 模型资源
 - 自制或委托制作
 
 请确保您有合法使用权限的模型文件。
