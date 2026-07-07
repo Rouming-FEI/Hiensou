@@ -17,38 +17,38 @@ const description = "随性而写，记录生活中的点滴感悟";
   let offset = 0;
   let hasMore = true;
   let loading = false;
-  let currentYear: number | null = null;
-  let currentMonth: number | null = null;
-  let observer: IntersectionObserver | null = null;
+  let currentYear = null;
+  let currentMonth = null;
+  let observer = null;
 
-  function createSentinel(): HTMLElement {
+  function createSentinel() {
     const el = document.createElement("div");
     el.className = "essays-sentinel h-1";
     return el;
   }
 
-  function createSpinner(): HTMLElement {
+  function createSpinner() {
     const el = document.createElement("div");
     el.className = "flex items-center justify-center py-8";
     el.innerHTML = '<div class="w-6 h-6 border-2 border-(--primary) border-t-transparent rounded-full animate-spin"></div>';
     return el;
   }
 
-  function createYearHeader(year: number): HTMLElement {
+  function createYearHeader(year) {
     const el = document.createElement("div");
     el.className = "text-2xl font-bold text-(--primary) mt-8 mb-4 first:mt-0";
     el.textContent = `${year}年`;
     return el;
   }
 
-  function createMonthHeader(month: number): HTMLElement {
+  function createMonthHeader(month) {
     const el = document.createElement("div");
     el.className = "text-lg font-semibold text-90 border-b border-(--line-divider) pb-2 mb-4 mt-6";
     el.textContent = MONTH_NAMES[month];
     return el;
   }
 
-  function createEntry(item: { id: string; title: string; description: string; published: string }): HTMLElement {
+  function createEntry(item) {
     const date = new Date(item.published);
     const day = date.getDate();
     const weekday = date.toLocaleDateString("zh-CN", { weekday: "short" });
@@ -70,7 +70,7 @@ const description = "随性而写，记录生活中的点滴感悟";
     return card;
   }
 
-  function renderItems(container: HTMLElement, sentinel: HTMLElement, items: Array<{ id: string; title: string; description: string; published: string; year: number; month: number }>) {
+  function renderItems(container, sentinel, items) {
     sentinel.remove();
     for (const item of items) {
       if (item.year !== currentYear) {
@@ -87,7 +87,7 @@ const description = "随性而写，记录生活中的点滴感悟";
     container.appendChild(sentinel);
   }
 
-  async function loadMore(container: HTMLElement, sentinel: HTMLElement) {
+  async function loadMore(container, sentinel) {
     if (loading || !hasMore) return;
     loading = true;
     const spinner = createSpinner();
