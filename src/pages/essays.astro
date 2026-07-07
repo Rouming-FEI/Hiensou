@@ -132,6 +132,11 @@ const description = "随性而写，记录生活中的点滴感悟";
     loadMore(container, sentinel);
   }
 
-  // 首次加载与 Swup 导航统一处理
-  document.addEventListener("astro:page-load", initEssays);
+  // 首次加载（模块脚本在 DOM 就绪后执行）
+  initEssays();
+
+  // Swup 客户端路由：内容替换后重新初始化
+  document.addEventListener("swup:contentReplaced", () => {
+    setTimeout(initEssays, 100);
+  });
 </script>
