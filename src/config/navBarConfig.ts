@@ -99,6 +99,13 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 
 			// 番组计划
 			LinkPresets.Bangumi,
+
+				// 随笔
+				{
+					name: "随笔",
+					url: "/essays/",
+					icon: "material-symbols:draw",
+				},
 		],
 	});
 
