@@ -21,13 +21,13 @@ declare global {
 			manager: ITOCManager | null;
 			isPostPage: () => boolean;
 		};
-		toggleFloatingTOC: () => void;
-		tocInternalNavigation: boolean;
-		// swup is defined in global.d.ts
-closeAnnouncement: () => void;
-		// __hiensouMusic type is defined in global.d.ts
-		semifullScrollHandler?: (() => void) | undefined;
-		initSemifullScrollDetection?: () => void;
+	toggleFloatingTOC: () => void;
+	tocInternalNavigation: boolean;
+	// swup is defined in global.d.ts
+	closeAnnouncement: () => void;
+	// __hiensouMusic type is defined in global.d.ts
+	semifullScrollHandler?: (() => void) | undefined;
+	initSemifullScrollDetection?: () => void;
 	}
 }
 
