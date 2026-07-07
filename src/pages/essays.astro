@@ -10,7 +10,9 @@ const description = "随性而写，记录生活中的点滴感悟";
   </div>
 </MainGridLayout>
 
-<script>
+<script is:inline>
+  (function () {
+  // 仅在首次执行时定义 Observer，但每次内容替换时需重新初始化
   const MONTH_NAMES = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
 
   let offset = 0;
@@ -108,14 +110,38 @@ const description = "随性而写，记录生活中的点滴感悟";
     }
   }
 
-  // 初始化：先挂 sentinel 再触发首次加载
-  container.appendChild(sentinel);
-  const observer = new IntersectionObserver(
-    (entries) => {
-      if (entries[0].isIntersecting) loadMore();
-    },
-    { rootMargin: "200px" },
-  );
-  observer.observe(sentinel);
-  loadMore();
+  let observer: IntersectionObserver | null = null;
+
+  function init() {
+    // 重置状态
+    container.innerHTML = "";
+    offset = 0;
+    hasMore = true;
+    loading = false;
+    currentYear = null;
+    currentMonth = null;
+
+    // 断开旧 observer
+    if (observer) observer.disconnect();
+
+    // 先挂 sentinel 再触发首次加载
+    container.appendChild(sentinel);
+    observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) loadMore();
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(sentinel);
+    loadMore();
+  }
+
+  // 首次加载
+  init();
+
+  // Swup 客户端路由：内容替换后重新初始化
+  document.addEventListener("swup:contentReplaced", () => {
+    setTimeout(init, 100);
+  });
+  })();
 </script>
