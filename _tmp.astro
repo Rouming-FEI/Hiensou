@@ -42,35 +42,36 @@ for (const post of posts) {
 			.trim();
 
 		// 分别计算中文字符和英文字符
-		const chineseChars = text.match(/[一-龥]/g) || [];
+		const chineseChars = text.match(/[\u4e00-\u9fa5]/g) || [];
 		const englishChars = text.match(/[a-zA-Z]/g) || [];
 
 		totalWords += chineseChars.length + englishChars.length;
 	}
-}
 
-// 同时获取随笔，用于最后活动时间计算
-const essays = await getCollection("essays");
+	// 同时获取随笔，用于最后活动时间计算
+	const essays = await getCollection("essays");
+}
 
 // 格式化数字（添加千位分隔符）
 function formatNumber(num: number): string {
 	return num.toLocaleString();
 }
 
-// 获取「最后活动」时间：取每篇文章/随笔 published 与 updated 中较新的那个，再从全站里取最大值。
-const getActivityDate = (entry: { data: { published: Date; updated?: Date } }): Date => {
-	const { published, updated } = entry.data;
+	// 获取「最后活动」时间：取每篇文章/随笔 published 与 updated 中较新的那个，再从全站里取最大值。
+	// 这样新发文章/随笔和修改都会刷新该字段。
+const getActivityDate = (post: (typeof posts)[number]): Date => {
+	const { published, updated } = post.data;
 	if (updated && updated > published) return updated;
 	return published;
 };
 
-const lastActivityDate = [...posts, ...essays].reduce<Date | null>((latest, entry) => {
-	const current = getActivityDate(entry);
+	const lastActivityDate = [...posts, ...essays].reduce<Date | null>((latest, entry) => {
+		const current = getActivityDate(entry);
 	if (!latest || current > latest) return current;
 	return latest;
 }, null);
 
-const lastPostDate = lastActivityDate ? lastActivityDate.toISOString() : null;
+	const lastPostDate = lastActivityDate ? lastActivityDate.toISOString() : null;
 
 const todayText = i18n(I18nKey.today);
 
