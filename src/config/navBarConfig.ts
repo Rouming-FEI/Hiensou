@@ -100,12 +100,9 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 			// 番组计划
 			LinkPresets.Bangumi,
 
-				// 随笔
-				{
-					name: "随笔",
-					url: "/essays/",
-					icon: "material-symbols:draw",
-				},
+			// 随笔
+			LinkPresets.Essays,
+
 		],
 	});
 
@@ -182,6 +179,12 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		icon: "material-symbols:photo-library",
 		pageKey: "gallery",
 	},
+
+		Essays: {
+			name: "随笔",
+			url: "/essays/",
+			icon: "material-symbols:draw",
+		},
 };
 
 export const navBarConfig: NavBarConfig = getDynamicNavBarConfig();
