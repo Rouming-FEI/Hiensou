@@ -34,3 +34,6 @@ yarn.lock
 cache/
 package/
 .obsidian/
+
+# content pulled from external content repo at build time
+src/content/
