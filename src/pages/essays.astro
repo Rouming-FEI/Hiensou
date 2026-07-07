@@ -137,6 +137,16 @@ const description = "随性而写，记录生活中的点滴感悟";
 
   // Swup 客户端路由：内容替换后重新初始化
   document.addEventListener("swup:contentReplaced", () => {
-    setTimeout(initEssays, 100);
+    // 轮询等待容器就绪
+    let attempts = 0;
+    const tryInit = () => {
+      const container = document.getElementById("essays-container");
+      if (container) {
+        initEssays();
+      } else if (attempts++ < 10) {
+        setTimeout(tryInit, 50);
+      }
+    };
+    setTimeout(tryInit, 100);
   });
 </script>
