@@ -179,12 +179,11 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		icon: "material-symbols:photo-library",
 		pageKey: "gallery",
 	},
-
-		Essays: {
-			name: "随笔",
-			url: "/essays/",
-			icon: "material-symbols:draw",
-		},
+	Essays: {
+		name: "随笔",
+		url: "/essays/",
+		icon: "material-symbols:draw",
+	},
 };
 
 export const navBarConfig: NavBarConfig = getDynamicNavBarConfig();

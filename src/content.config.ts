@@ -31,7 +31,17 @@ const postsCollection = defineCollection({
 	}),
 });
 
-const specCollection = defineCollection({
+const essaysCollection = defineCollection({
+		loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/essays" }),
+		schema: z.object({
+			title: z.string(),
+			published: z.date(),
+			description: z.string().optional().default(""),
+			draft: z.boolean().optional().default(false),
+		}),
+	});
+
+	const specCollection = defineCollection({
 	loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/spec" }),
 	schema: z.object({}),
 });
@@ -39,4 +49,5 @@ const specCollection = defineCollection({
 export const collections = {
 	posts: postsCollection,
 	spec: specCollection,
+		essays: essaysCollection,
 };

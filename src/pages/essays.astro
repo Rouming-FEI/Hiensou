@@ -6,10 +6,127 @@ const description = "随性而写，记录生活中的点滴感悟";
 ---
 
 <MainGridLayout title={title} description={description}>
-  <div class="card-base rounded-(--radius-large) p-8">
-    <div class="text-center py-16">
-      <div class="text-2xl font-bold text-(--primary) mb-4">{title}</div>
-      <p class="text-75">{description}</p>
+  <div id="essays-container" class="onload-animation">
+    <!-- 加载指示器 -->
+    <div id="essays-loading" class="hidden flex items-center justify-center py-8">
+      <div class="w-6 h-6 border-2 border-(--primary) border-t-transparent rounded-full animate-spin"></div>
+    </div>
+    <!-- 全部加载提示 -->
+    <div id="essays-end" class="hidden text-center py-8">
+      <span class="text-60 text-sm">— 已经到底啦 —</span>
     </div>
   </div>
 </MainGridLayout>
+
+<script>
+  const MONTH_NAMES = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
+
+  let offset = 0;
+  let hasMore = true;
+  let loading = false;
+  let currentYear: number | null = null;
+  let currentMonth: number | null = null;
+
+  const container = document.getElementById("essays-container")!;
+  const loadingEl = document.getElementById("essays-loading")!;
+  const endEl = document.getElementById("essays-end")!;
+
+  function createYearHeader(year: number): HTMLElement {
+    const div = document.createElement("div");
+    div.className = "text-2xl font-bold text-(--primary) mt-8 mb-4 first:mt-0";
+    div.textContent = `${year}年`;
+    return div;
+  }
+
+  function createMonthHeader(month: number): HTMLElement {
+    const div = document.createElement("div");
+    div.className = "text-lg font-semibold text-90 border-b border-(--line-divider) pb-2 mb-4 mt-6";
+    div.textContent = MONTH_NAMES[month];
+    return div;
+  }
+
+  function createEntry(item: { id: string; title: string; description: string; published: string }): HTMLElement {
+    const date = new Date(item.published);
+    const day = date.getDate();
+    const weekday = date.toLocaleDateString("zh-CN", { weekday: "short" });
+
+    const card = document.createElement("div");
+    card.className = "card-base rounded-(--radius-large) p-4 mb-3 hover:border-(--primary)/30 transition-colors";
+
+    card.innerHTML = `
+      <div class="flex items-start gap-4">
+        <!-- 日期 -->
+        <div class="shrink-0 w-12 text-center pt-0.5">
+          <div class="text-lg font-bold text-(--primary) leading-tight">${day}</div>
+          <div class="text-xs text-60 mt-0.5">${weekday}</div>
+        </div>
+        <!-- 内容 -->
+        <div class="min-w-0 flex-1">
+          <div class="text-90 font-medium mb-1 truncate">${item.title}</div>
+          ${item.description ? `<p class="text-75 text-sm line-clamp-2">${item.description}</p>` : ""}
+        </div>
+      </div>
+    `;
+
+    return card;
+  }
+
+  function renderItems(items: Array<{ id: string; title: string; description: string; published: string; year: number; month: number }>) {
+    for (const item of items) {
+      // Year header
+      if (item.year !== currentYear) {
+        currentYear = item.year;
+        currentMonth = null;
+        container.appendChild(createYearHeader(item.year));
+      }
+      // Month header
+      if (item.month !== currentMonth) {
+        currentMonth = item.month;
+        container.appendChild(createMonthHeader(item.month));
+      }
+      // Entry card
+      container.appendChild(createEntry(item));
+    }
+  }
+
+  async function loadMore() {
+    if (loading || !hasMore) return;
+    loading = true;
+    loadingEl.classList.remove("hidden");
+
+    try {
+      const resp = await fetch(`/api/essays.json?offset=${offset}`);
+      const data = await resp.json();
+      hasMore = data.hasMore;
+      offset = data.nextOffset;
+      renderItems(data.items);
+    } catch (err) {
+      console.error("加载随笔失败:", err);
+    } finally {
+      loadingEl.classList.add("hidden");
+      if (!hasMore) {
+        endEl.classList.remove("hidden");
+      }
+    }
+  }
+
+  // IntersectionObserver for infinite scroll
+  const sentinel = document.createElement("div");
+  sentinel.id = "essays-sentinel";
+  sentinel.className = "h-1";
+  container.appendChild(sentinel);
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        loadMore();
+      }
+    },
+    { rootMargin: "200px" },
+  );
+
+  observer.observe(sentinel);
+
+  // Initial load
+  loadMore();
+</script>
