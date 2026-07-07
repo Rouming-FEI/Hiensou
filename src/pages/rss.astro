@@ -8,7 +8,7 @@ import { i18n } from "@/i18n/translation";
 
 const posts = await getSortedPosts();
 const recentPosts = posts.slice(0, 6);
-const rssUrl = `${Astro.site ?? Astro.url.origin}/rss.xml`;
+const rssUrl = `${(Astro.site ?? Astro.url).origin}/rss.xml`;
 ---
 
 <MainGridLayout title={i18n(I18nKey.rss)} description={i18n(I18nKey.rssDescription)}>
