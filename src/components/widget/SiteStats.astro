@@ -1,7 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import WidgetLayout from "@/components/common/WidgetLayout.astro";
-import { siteConfig } from "@/config";
+import { galleryConfig, siteConfig } from "@/config";
 import I18nKey from "@/i18n/i18nKey";
 import { i18n } from "@/i18n/translation";
 import type { WidgetComponentConfig } from "@/types/config";
@@ -49,8 +49,22 @@ for (const post of posts) {
 	}
 }
 
-// 同时获取随笔，用于最后活动时间计算
+// 同时获取随笔，用于字数统计和最后活动时间计算
 const essays = await getCollection("essays");
+
+// 统计随笔字数
+for (const essay of essays) {
+	if (essay.body) {
+		let text = essay.body
+			.replace(/```[\s\S]*?```/g, "")
+			.replace(/`[^`]*`/g, "")
+			.replace(/\s+/g, " ")
+			.trim();
+		const chineseChars = text.match(/[一-龥]/g) || [];
+		const englishChars = text.match(/[a-zA-Z]/g) || [];
+		totalWords += chineseChars.length + englishChars.length;
+	}
+}
 
 // 格式化数字（添加千位分隔符）
 function formatNumber(num: number): string {
@@ -64,11 +78,25 @@ const getActivityDate = (entry: { data: { published: Date; updated?: Date } }): 
 	return published;
 };
 
-const lastActivityDate = [...posts, ...essays].reduce<Date | null>((latest, entry) => {
-	const current = getActivityDate(entry);
-	if (!latest || current > latest) return current;
-	return latest;
-}, null);
+// 收集相册日期
+const albumDates = galleryConfig.albums
+	.filter((a) => a.date)
+	.map((a) => new Date(a.date!));
+
+let lastActivityDate = [...posts, ...essays]
+	.reduce<Date | null>((latest, entry) => {
+		const current = getActivityDate(entry);
+		if (!latest || current > latest) return current;
+		return latest;
+	}, null);
+
+// 合并相册日期
+for (const albumDate of albumDates) {
+	if (!lastActivityDate || albumDate > lastActivityDate) {
+		lastActivityDate = albumDate;
+	}
+}
+
 
 const lastPostDate = lastActivityDate ? lastActivityDate.toISOString() : null;
 
