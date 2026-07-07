@@ -10,9 +10,7 @@ const description = "随性而写，记录生活中的点滴感悟";
   </div>
 </MainGridLayout>
 
-<script is:inline>
-  (function () {
-  // 仅在首次执行时定义 Observer，但每次内容替换时需重新初始化
+<script>
   const MONTH_NAMES = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
 
   let offset = 0;
@@ -20,32 +18,33 @@ const description = "随性而写，记录生活中的点滴感悟";
   let loading = false;
   let currentYear: number | null = null;
   let currentMonth: number | null = null;
+  let observer: IntersectionObserver | null = null;
 
-  const container = document.getElementById("essays-container")!;
-
-  // 动态创建加载指示器和兜底 sentinel，确保在内容之后
-  const sentinel = document.createElement("div");
-  sentinel.className = "essays-sentinel h-1";
+  function createSentinel(): HTMLElement {
+    const el = document.createElement("div");
+    el.className = "essays-sentinel h-1";
+    return el;
+  }
 
   function createSpinner(): HTMLElement {
-    const div = document.createElement("div");
-    div.className = "flex items-center justify-center py-8";
-    div.innerHTML = '<div class="w-6 h-6 border-2 border-(--primary) border-t-transparent rounded-full animate-spin"></div>';
-    return div;
+    const el = document.createElement("div");
+    el.className = "flex items-center justify-center py-8";
+    el.innerHTML = '<div class="w-6 h-6 border-2 border-(--primary) border-t-transparent rounded-full animate-spin"></div>';
+    return el;
   }
 
   function createYearHeader(year: number): HTMLElement {
-    const div = document.createElement("div");
-    div.className = "text-2xl font-bold text-(--primary) mt-8 mb-4 first:mt-0";
-    div.textContent = `${year}年`;
-    return div;
+    const el = document.createElement("div");
+    el.className = "text-2xl font-bold text-(--primary) mt-8 mb-4 first:mt-0";
+    el.textContent = `${year}年`;
+    return el;
   }
 
   function createMonthHeader(month: number): HTMLElement {
-    const div = document.createElement("div");
-    div.className = "text-lg font-semibold text-90 border-b border-(--line-divider) pb-2 mb-4 mt-6";
-    div.textContent = MONTH_NAMES[month];
-    return div;
+    const el = document.createElement("div");
+    el.className = "text-lg font-semibold text-90 border-b border-(--line-divider) pb-2 mb-4 mt-6";
+    el.textContent = MONTH_NAMES[month];
+    return el;
   }
 
   function createEntry(item: { id: string; title: string; description: string; published: string }): HTMLElement {
@@ -55,7 +54,6 @@ const description = "随性而写，记录生活中的点滴感悟";
 
     const card = document.createElement("div");
     card.className = "card-base rounded-(--radius-large) p-4 mb-3 hover:border-(--primary)/30 transition-colors";
-
     card.innerHTML = `
       <div class="flex items-start gap-4">
         <div class="shrink-0 w-12 text-center pt-0.5">
@@ -64,16 +62,14 @@ const description = "随性而写，记录生活中的点滴感悟";
         </div>
         <div class="min-w-0 flex-1">
           <div class="text-90 font-medium mb-1 truncate">${item.title}</div>
-          ${item.description ? `<p class="text-75 text-sm line-clamp-2">${item.description}</p>` : ""}
+          ${item.description ? '<p class="text-75 text-sm line-clamp-2">' + item.description + "</p>" : ""}
         </div>
       </div>
     `;
-
     return card;
   }
 
-  function renderItems(items: Array<{ id: string; title: string; description: string; published: string; year: number; month: number }>) {
-    // 移除旧 sentinel，追加内容后再挂回去
+  function renderItems(container: HTMLElement, sentinel: HTMLElement, items: Array<{ id: string; title: string; description: string; published: string; year: number; month: number }>) {
     sentinel.remove();
     for (const item of items) {
       if (item.year !== currentYear) {
@@ -90,19 +86,17 @@ const description = "随性而写，记录生活中的点滴感悟";
     container.appendChild(sentinel);
   }
 
-  async function loadMore() {
+  async function loadMore(container: HTMLElement, sentinel: HTMLElement) {
     if (loading || !hasMore) return;
     loading = true;
-
     const spinner = createSpinner();
     container.appendChild(spinner);
-
     try {
       const resp = await fetch(`/api/essays.json?offset=${offset}`);
       const data = await resp.json();
       hasMore = data.hasMore;
       offset = data.nextOffset;
-      renderItems(data.items);
+      renderItems(container, sentinel, data.items);
     } catch (err) {
       console.error("加载随笔失败:", err);
     } finally {
@@ -110,9 +104,13 @@ const description = "随性而写，记录生活中的点滴感悟";
     }
   }
 
-  let observer: IntersectionObserver | null = null;
+  function initEssays() {
+    const container = document.getElementById("essays-container");
+    if (!container) return;
 
-  function init() {
+    // 断开旧 observer
+    if (observer) observer.disconnect();
+
     // 重置状态
     container.innerHTML = "";
     offset = 0;
@@ -121,27 +119,19 @@ const description = "随性而写，记录生活中的点滴感悟";
     currentYear = null;
     currentMonth = null;
 
-    // 断开旧 observer
-    if (observer) observer.disconnect();
-
-    // 先挂 sentinel 再触发首次加载
+    const sentinel = createSentinel();
     container.appendChild(sentinel);
+
     observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) loadMore();
+        if (entries[0].isIntersecting) loadMore(container, sentinel);
       },
       { rootMargin: "200px" },
     );
     observer.observe(sentinel);
-    loadMore();
+    loadMore(container, sentinel);
   }
 
-  // 首次加载
-  init();
-
-  // Swup 客户端路由：内容替换后重新初始化
-  document.addEventListener("swup:contentReplaced", () => {
-    setTimeout(init, 100);
-  });
-  })();
+  // 首次加载与 Swup 导航统一处理
+  document.addEventListener("astro:page-load", initEssays);
 </script>
