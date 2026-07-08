@@ -4,7 +4,7 @@ import type { BackgroundWallpaperConfig } from "@/types/backgroundWallpaper";
 
 // 自动扫描文件夹下的图片，返回相对路径数组
 function scanWallpaperDir(dirName: string): string[] {
-	const dir = path.join("src/assets/images", dirName);
+	const dir = path.join(process.cwd(), "src/assets/images", dirName);
 	try {
 		return fs
 			.readdirSync(dir)
