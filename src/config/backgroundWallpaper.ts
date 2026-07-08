@@ -4,6 +4,8 @@ import type { BackgroundWallpaperConfig } from "@/types/backgroundWallpaper";
 
 // 自动扫描文件夹下的图片，返回相对路径数组
 function scanWallpaperDir(dirName: string): string[] {
+	// Guard: fs is not available in browser bundle
+	if (typeof window !== "undefined") return [];
 	const dir = path.join("src/assets/images", dirName);
 	try {
 		const files = fs.readdirSync(dir);
