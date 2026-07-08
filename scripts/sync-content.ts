@@ -15,7 +15,7 @@
  */
 
 import { execSync } from "node:child_process";
-import { existsSync, rmSync } from "node:fs";
+import { cpSync, existsSync, rmSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT_DIR = join(import.meta.dirname, "..");
@@ -64,4 +64,14 @@ try {
 } catch (error) {
 	console.error("Failed to clone content repository:", error);
 	process.exit(1);
+}
+
+// Sync gallery to public/gallery/ for static serving
+const gallerySrc = join(TARGET_DIR, "gallery");
+const galleryDest = join(ROOT_DIR, "public", "gallery");
+if (existsSync(gallerySrc)) {
+	console.log("Syncing gallery to public/gallery/...");
+	if (existsSync(galleryDest)) rmSync(galleryDest, { recursive: true, force: true });
+	cpSync(gallerySrc, galleryDest, { recursive: true });
+	console.log("Gallery synced successfully.");
 }

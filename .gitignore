@@ -37,3 +37,4 @@ package/
 
 # content pulled from external content repo at build time
 src/content/
+public/gallery/

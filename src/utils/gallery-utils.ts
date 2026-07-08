@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import type { GalleryAlbum } from "@/types/config";
 import { url } from "@/utils/url-utils";
+import matter from "gray-matter";
 
 function withBase(assetPath: string): string {
 	if (!assetPath) return "";
@@ -58,4 +59,38 @@ export function getAlbumCover(album: GalleryAlbum, photos: string[]): string {
 	if (album.cover) return withBase(album.cover);
 	const coverFile = photos.find((p) => /\/cover\./i.test(p));
 	return coverFile || photos[0] || "";
+}
+
+/**
+ * Scan public/gallery/*\/album.md to build the album list.
+ * Each album directory contains an album.md with YAML frontmatter
+ * (same fields as GalleryAlbum) and optional markdown body.
+ */
+export function scanAlbums(): GalleryAlbum[] {
+	const galleryRoot = path.join(process.cwd(), "public", "gallery");
+	if (!fs.existsSync(galleryRoot)) return [];
+	const albums: GalleryAlbum[] = [];
+	const entries = fs.readdirSync(galleryRoot, { withFileTypes: true });
+	for (const entry of entries) {
+		if (!entry.isDirectory() || entry.name.startsWith(".")) continue;
+		const albumId = entry.name;
+		const albumMd = path.join(galleryRoot, albumId, "album.md");
+		if (!fs.existsSync(albumMd)) continue;
+		try {
+			const raw = fs.readFileSync(albumMd, "utf-8");
+			const { data } = matter(raw);
+			albums.push({
+				id: albumId,
+				name: data.name || albumId,
+				description: data.description || "",
+				date: data.date || "",
+				location: data.location || "",
+				tags: data.tags || [],
+				cover: data.cover || "",
+				password: data.password || "",
+				passwordHint: data.passwordHint || "",
+			});
+		} catch { /* skip malformed album.md */ }
+	}
+	return albums;
 }

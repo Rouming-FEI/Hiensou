@@ -13,6 +13,6 @@ export type GalleryAlbum = {
 
 // 相册配置
 export type GalleryConfig = {
-	albums: GalleryAlbum[];
+	albums?: GalleryAlbum[]; // 已废弃 — 相册列表由 scanAlbums() 从 album.md 自动扫描
 	columnWidth?: number; // 瀑布流最小列宽(px)，默认 240，浏览器根据容器宽度自动计算列数
 };
