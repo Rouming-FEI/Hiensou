@@ -4,14 +4,17 @@ import type { BackgroundWallpaperConfig } from "@/types/backgroundWallpaper";
 
 // 自动扫描文件夹下的图片，返回相对路径数组
 function scanWallpaperDir(dirName: string): string[] {
-	const dir = path.join(process.cwd(), "src/assets/images", dirName);
+	const dir = path.join("src/assets/images", dirName);
 	try {
-		return fs
-			.readdirSync(dir)
+		const files = fs.readdirSync(dir);
+		const images = files
 			.filter((f) => /\.(avif|png|webp|jpe?g|gif)$/i.test(f))
 			.sort()
 			.map((f) => `assets/images/${dirName}/${f}`);
-	} catch {
+		console.log(`[wallpaper] ${dirName}: found ${images.length} images`);
+		return images;
+	} catch (err) {
+		console.warn(`[wallpaper] ${dirName}: scan failed — ${err}`);
 		return [];
 	}
 }
