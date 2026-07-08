@@ -66,6 +66,18 @@ try {
 	process.exit(1);
 }
 
+// Remove non-content files that would cause build issues
+const cleanDirs = ["manager", ".github", "docs", ".superpowers", ".git"];
+const cleanFiles = ["package.json", "pnpm-lock.yaml", "README.md", "start-manager.bat", ".gitignore", "SETUP.md"];
+for (const dir of cleanDirs) {
+	const p = join(TARGET_DIR, dir);
+	if (existsSync(p)) { rmSync(p, { recursive: true, force: true }); }
+}
+for (const file of cleanFiles) {
+	const p = join(TARGET_DIR, file);
+	if (existsSync(p)) { rmSync(p, { force: true }); }
+}
+
 // Sync gallery to public/gallery/ for static serving
 const gallerySrc = join(TARGET_DIR, "gallery");
 const galleryDest = join(ROOT_DIR, "public", "gallery");
