@@ -1,4 +1,20 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { BackgroundWallpaperConfig } from "@/types/backgroundWallpaper";
+
+// 自动扫描文件夹下的图片，返回相对路径数组
+function scanWallpaperDir(dirName: string): string[] {
+	const dir = path.join("src/assets/images", dirName);
+	try {
+		return fs
+			.readdirSync(dir)
+			.filter((f) => /\.(avif|png|webp|jpe?g|gif)$/i.test(f))
+			.sort()
+			.map((f) => `assets/images/${dirName}/${f}`);
+	} catch {
+		return [];
+	}
+}
 
 export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	// 壁纸模式："banner" 横幅壁纸，"fullscreen" 全屏壁纸，"overlay" 全屏透明，"none" 纯色背景无壁纸
@@ -41,25 +57,10 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	 */
 	src: {
 		// 桌面背景图片（支持单张或多张随机）
-		// desktop: "assets/images/DesktopWallpaper/d1.avif",
-		desktop: [
-			"assets/images/DesktopWallpaper/d1.png",
-			"assets/images/DesktopWallpaper/d2.png",
-			"assets/images/DesktopWallpaper/d3.png",
-			"assets/images/DesktopWallpaper/d4.png",
-			"assets/images/DesktopWallpaper/d5.png",
-			"assets/images/DesktopWallpaper/d6.png",
-		],
-		// 移动背景图片（支持单张或多张随机）
-		// mobile: "assets/images/MobileWallpaper/m1.avif",
-		mobile: [
-			"assets/images/MobileWallpaper/m1.png",
-			"assets/images/MobileWallpaper/m2.png",
-			"assets/images/MobileWallpaper/m3.png",
-			"assets/images/MobileWallpaper/m4.png",
-			"assets/images/MobileWallpaper/m5.png",
-			"assets/images/MobileWallpaper/m6.png",
-		],
+		// 自动扫描文件夹，放图即生效。也可以手动写数组覆盖
+		desktop: scanWallpaperDir("DesktopWallpaper"),
+		// 移动背景图片（自动扫描，放图即生效）
+		mobile: scanWallpaperDir("MobileWallpaper"),
 		// 背景视频播放地址
 		// 支持单个视频路径（字符串）或多个视频循环（数组）
 		// 支持远程视频URL，本地视频请放在 public/assets/videos/ 目录下
