@@ -36,6 +36,7 @@ const essaysCollection = defineCollection({
 		schema: z.object({
 			title: z.string(),
 			published: z.date(),
+			slug: z.string().optional(),
 			description: z.string().optional().default(""),
 			draft: z.boolean().optional().default(false),
 		}),
