@@ -15,7 +15,7 @@
  */
 
 import { execSync } from "node:child_process";
-import { cpSync, existsSync, rmSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, rmSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT_DIR = join(import.meta.dirname, "..");
@@ -64,6 +64,16 @@ try {
 } catch (error) {
 	console.error("Failed to clone content repository:", error);
 	process.exit(1);
+}
+
+// 确保 content 集合所需的子目录存在（外部仓库可能不包含某些集合）
+const requiredDirs = ["posts", "spec", "essays"];
+for (const dir of requiredDirs) {
+	const dirPath = join(TARGET_DIR, dir);
+	if (!existsSync(dirPath)) {
+		console.log(`Creating required content dir: ${dirPath}`);
+		mkdirSync(dirPath, { recursive: true });
+	}
 }
 
 // Remove non-content files that would cause build issues
