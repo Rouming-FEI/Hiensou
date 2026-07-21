@@ -37,7 +37,6 @@ const essaysCollection = defineCollection({
 			title: z.string(),
 			published: z.coerce.date(),
 			slug: z.string().optional(),
-			description: z.string().optional().default(""),
 			draft: z.boolean().optional().default(false),
 		}),
 	});
