@@ -18,9 +18,8 @@ export async function GET({ url }: { url: URL }) {
 	const items = page.map((essay) => ({
 		id: essay.id,
 		title: essay.data.title,
-		description: essay.data.description,
+		body: essay.body?.trim() || "",
 		published: essay.data.published.toISOString(),
-		// Extract year/month for grouping key
 		year: essay.data.published.getFullYear(),
 		month: essay.data.published.getMonth(),
 	}));
