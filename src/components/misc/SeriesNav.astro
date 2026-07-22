@@ -1,0 +1,66 @@
+---
+import { getSeriesPosts } from "@/utils/content-utils";
+import { url } from "@/utils/url-utils";
+
+interface Props {
+  series?: string;
+  seriesOrder?: number;
+  currentSlug: string;
+}
+
+const { series, seriesOrder: _seriesOrder, currentSlug } = Astro.props;
+
+if (!series) return; // Not part of a series
+
+const posts = await getSeriesPosts(series);
+if (posts.length <= 1) return; // Only one post, no navigation needed
+
+const currentIdx = posts.findIndex(
+  (p) => p.id === currentSlug
+);
+if (currentIdx === -1) return;
+
+const prev = currentIdx > 0 ? posts[currentIdx - 1] : null;
+const next = currentIdx < posts.length - 1 ? posts[currentIdx + 1] : null;
+---
+
+<div class="card-base rounded-(--radius-large) p-4 mt-6">
+  <div class="flex items-center justify-between gap-4">
+    <!-- Prev -->
+    <div class="flex-1 min-w-0">
+      {prev ? (
+        <a href={url(`/posts/${prev.id}/`)}
+           class="block group p-2 -m-2 rounded-lg hover:bg-(--btn-card-bg-hover) transition-colors">
+          <div class="text-xs text-30">上一篇</div>
+          <div class="text-sm font-medium text-90 group-hover:text-(--primary) transition-colors truncate mt-0.5">
+            {prev.data.title}
+          </div>
+        </a>
+      ) : <div class="p-2 text-xs text-50">已是第一篇</div>}
+    </div>
+
+    <!-- Center -->
+    <div class="shrink-0 text-center px-4">
+      <a href={url(`/series/${series}/`)}
+         class="text-xs text-30 hover:text-(--primary) transition-colors block">
+        {series}
+      </a>
+      <div class="text-xs text-50 mt-0.5">
+        第 {currentIdx + 1} 篇 / 共 {posts.length} 篇
+      </div>
+    </div>
+
+    <!-- Next -->
+    <div class="flex-1 min-w-0 text-right">
+      {next ? (
+        <a href={url(`/posts/${next.id}/`)}
+           class="block group p-2 -m-2 rounded-lg hover:bg-(--btn-card-bg-hover) transition-colors">
+          <div class="text-xs text-30">下一篇</div>
+          <div class="text-sm font-medium text-90 group-hover:text-(--primary) transition-colors truncate mt-0.5">
+            {next.data.title}
+          </div>
+        </a>
+      ) : <div class="p-2 text-xs text-50">已是最后一篇</div>}
+    </div>
+  </div>
+</div>

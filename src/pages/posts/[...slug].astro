@@ -6,6 +6,7 @@ import Markdown from "@components/common/Markdown.astro";
 import EncryptedPost from "@components/features/EncryptedPost.astro";
 import KatexManager from "@components/features/KatexManager.astro";
 import License from "@components/misc/License.astro";
+import SeriesNav from "@components/misc/SeriesNav.astro";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
@@ -507,6 +508,12 @@ const relatedPosts = await getRelatedPosts(entry, 5);
       </div>
     </a>
   </div>
+
+  <SeriesNav
+    series={entry.data.series}
+    seriesOrder={entry.data.seriesOrder}
+    currentSlug={entry.id}
+  />
 
   <RecommendedPost relatedPosts={relatedPosts} currentPostId={entry.id} />
 
