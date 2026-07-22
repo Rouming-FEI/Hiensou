@@ -13,6 +13,8 @@ const postsCollection = defineCollection({
 		image: z.string().optional().default(""),
 		tags: z.array(z.string()).optional().default([]),
 		category: z.string().optional().nullable().default(""),
+		series: z.string().optional(),
+		seriesOrder: z.number().optional(),
 		lang: z.string().optional().default(""),
 		pinned: z.boolean().optional().default(false),
 		author: z.string().optional().default(""),
@@ -32,16 +34,27 @@ const postsCollection = defineCollection({
 });
 
 const essaysCollection = defineCollection({
-		loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/essays" }),
-		schema: z.object({
-			title: z.string(),
-			published: z.coerce.date(),
-			slug: z.string().optional(),
-			draft: z.boolean().optional().default(false),
-		}),
-	});
+	loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/essays" }),
+	schema: z.object({
+		title: z.string(),
+		published: z.coerce.date(),
+		slug: z.string().optional(),
+		draft: z.boolean().optional().default(false),
+	}),
+});
 
-	const specCollection = defineCollection({
+const seriesCollection = defineCollection({
+	loader: glob({ pattern: "**/*.md", base: "./src/content/series" }),
+	schema: z.object({
+		id: z.string(),
+		name: z.string(),
+		description: z.string().optional().default(""),
+		cover: z.string().optional().default(""),
+		draft: z.boolean().optional().default(false),
+	}),
+});
+
+const specCollection = defineCollection({
 	loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/spec" }),
 	schema: z.object({}),
 });
@@ -49,5 +62,6 @@ const essaysCollection = defineCollection({
 export const collections = {
 	posts: postsCollection,
 	spec: specCollection,
-		essays: essaysCollection,
+	essays: essaysCollection,
+	series: seriesCollection,
 };

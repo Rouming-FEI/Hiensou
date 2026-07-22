@@ -156,6 +156,55 @@ function jaccardSimilarity(a: Set<string>, b: Set<string>): number {
  * - timeFreshnessScore (0-30): 6 个月半衰期指数衰减
  * - categoryBonus (0 or 10): 同分类加 10 分
  */
+export type SeriesMeta = {
+	id: string;
+	name: string;
+	description: string;
+	cover: string;
+	draft: boolean;
+	count: number;
+};
+
+/** List all non-draft series with article counts */
+export async function getSeriesList(): Promise<SeriesMeta[]> {
+	const allSeries = await getCollection("series", ({ data }) => {
+		return import.meta.env.PROD ? data.draft !== true : true;
+	});
+	const allPosts = await getCollection("posts", ({ data }) => {
+		return import.meta.env.PROD ? data.draft !== true : true;
+	});
+
+	return allSeries.map((s) => {
+		const posts = allPosts
+			.filter((p) => p.data.series === s.data.id)
+			.sort((a, b) => (a.data.seriesOrder || 0) - (b.data.seriesOrder || 0));
+		return {
+			id: s.data.id,
+			name: s.data.name,
+			description: s.data.description || posts[0]?.data.description || "",
+			cover: s.data.cover || "",
+			draft: s.data.draft || false,
+			count: posts.length,
+		};
+	});
+}
+
+/** Get a single series by id */
+export async function getSeriesMeta(id: string): Promise<SeriesMeta | null> {
+	const list = await getSeriesList();
+	return list.find((s) => s.id === id) || null;
+}
+
+/** Get all posts in a series, sorted by seriesOrder */
+export async function getSeriesPosts(id: string): Promise<CollectionEntry<"posts">[]> {
+	const allPosts = await getCollection("posts", ({ data }) => {
+		return import.meta.env.PROD ? data.draft !== true : true;
+	});
+	return allPosts
+		.filter((p) => p.data.series === id)
+		.sort((a, b) => (a.data.seriesOrder || 0) - (b.data.seriesOrder || 0));
+}
+
 export async function getRelatedPosts(
 	currentPost: CollectionEntry<"posts">,
 	maxCount = 5,
