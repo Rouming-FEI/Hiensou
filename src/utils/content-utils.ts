@@ -120,42 +120,6 @@ export async function getCategoryList(): Promise<Category[]> {
 	return ret;
 }
 
-/**
- * 对标题进行分词，支持中英文混合
- * 使用 Intl.Segmenter 对中文分词，英文按空格分词
- * 过滤标点和空白，英文统一小写
- */
-function tokenizeTitle(title: string): Set<string> {
-	const tokens = new Set<string>();
-	const segmenter = new Intl.Segmenter("zh", { granularity: "word" });
-	for (const { segment, isWordLike } of segmenter.segment(title)) {
-		if (!isWordLike) continue;
-		tokens.add(segment.toLowerCase());
-	}
-	return tokens;
-}
-
-/**
- * 计算两个集合的 Jaccard 相似度
- */
-function jaccardSimilarity(a: Set<string>, b: Set<string>): number {
-	if (a.size === 0 && b.size === 0) return 0;
-	let intersection = 0;
-	for (const item of a) {
-		if (b.has(item)) intersection++;
-	}
-	const union = a.size + b.size - intersection;
-	return union === 0 ? 0 : intersection / union;
-}
-
-/**
- * 获取相关文章推荐
- * 评分公式: totalScore = tagMatchScore + titleSimilarityScore + timeFreshnessScore + categoryBonus
- * - tagMatchScore (0-100): 标签 Jaccard 相似度 × 100
- * - titleSimilarityScore (0-100): 标题分词 Jaccard 相似度 × 100
- * - timeFreshnessScore (0-30): 6 个月半衰期指数衰减
- * - categoryBonus (0 or 10): 同分类加 10 分
- */
 export type SeriesMeta = {
 	id: string;
 	name: string;
@@ -205,6 +169,42 @@ export async function getSeriesPosts(id: string): Promise<CollectionEntry<"posts
 		.sort((a, b) => (a.data.seriesOrder || 0) - (b.data.seriesOrder || 0));
 }
 
+/**
+ * 对标题进行分词，支持中英文混合
+ * 使用 Intl.Segmenter 对中文分词，英文按空格分词
+ * 过滤标点和空白，英文统一小写
+ */
+function tokenizeTitle(title: string): Set<string> {
+	const tokens = new Set<string>();
+	const segmenter = new Intl.Segmenter("zh", { granularity: "word" });
+	for (const { segment, isWordLike } of segmenter.segment(title)) {
+		if (!isWordLike) continue;
+		tokens.add(segment.toLowerCase());
+	}
+	return tokens;
+}
+
+/**
+ * 计算两个集合的 Jaccard 相似度
+ */
+function jaccardSimilarity(a: Set<string>, b: Set<string>): number {
+	if (a.size === 0 && b.size === 0) return 0;
+	let intersection = 0;
+	for (const item of a) {
+		if (b.has(item)) intersection++;
+	}
+	const union = a.size + b.size - intersection;
+	return union === 0 ? 0 : intersection / union;
+}
+
+/**
+ * 获取相关文章推荐
+ * 评分公式: totalScore = tagMatchScore + titleSimilarityScore + timeFreshnessScore + categoryBonus
+ * - tagMatchScore (0-100): 标签 Jaccard 相似度 × 100
+ * - titleSimilarityScore (0-100): 标题分词 Jaccard 相似度 × 100
+ * - timeFreshnessScore (0-30): 6 个月半衰期指数衰减
+ * - categoryBonus (0 or 10): 同分类加 10 分
+ */
 export async function getRelatedPosts(
 	currentPost: CollectionEntry<"posts">,
 	maxCount = 5,
