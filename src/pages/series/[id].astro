@@ -1,0 +1,55 @@
+---
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { getSeriesMeta, getSeriesPosts } from "@/utils/content-utils";
+import { url } from "@/utils/url-utils";
+
+export async function getStaticPaths() {
+  const { getSeriesList } = await import("@/utils/content-utils");
+  const list = await getSeriesList();
+  return list.map((s) => ({ params: { id: s.id } }));
+}
+
+const { id } = Astro.params;
+const meta = await getSeriesMeta(id!);
+if (!meta) return Astro.redirect("/404/");
+
+const posts = await getSeriesPosts(id!);
+---
+
+<MainGridLayout title={meta.name} description={meta.description}>
+  <!-- Header -->
+  <div class="card-base px-8 py-6 mb-4">
+    <div class="flex items-center gap-2 text-sm text-30 mb-2">
+      <a href={url("/series/")} class="hover:text-(--primary) transition-colors">系列文章</a>
+      <span>/</span>
+      <span class="text-90">{meta.name}</span>
+    </div>
+    <h1 class="text-2xl font-bold text-(--primary) mt-2">{meta.name}</h1>
+    {meta.description && <p class="text-sm text-30 mt-2">{meta.description}</p>}
+    <p class="text-xs text-(--primary) mt-3">{posts.length} 篇文章</p>
+  </div>
+
+  <!-- Post list -->
+  <div class="flex flex-col gap-3">
+    {posts.map((post, i) => (
+      <a href={url(`/posts/${post.id}/`)} class="card-base p-4 group hover:border-(--primary)/30 transition-colors flex items-center gap-4">
+        <span class="shrink-0 w-8 h-8 rounded-full bg-(--primary)/10 text-(--primary) text-sm font-bold flex items-center justify-center">
+          {i + 1}
+        </span>
+        <div class="min-w-0 flex-1">
+          <h3 class="font-medium text-90 group-hover:text-(--primary) transition-colors truncate">
+            {post.data.title}
+          </h3>
+          {post.data.description && (
+            <p class="text-xs text-30 mt-0.5 line-clamp-1">{post.data.description}</p>
+          )}
+        </div>
+        <span class="shrink-0 text-xs text-30">
+          {post.data.published instanceof Date
+            ? post.data.published.toISOString().slice(0, 10)
+            : String(post.data.published).slice(0, 10)}
+        </span>
+      </a>
+    ))}
+  </div>
+</MainGridLayout>
