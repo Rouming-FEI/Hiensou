@@ -30,6 +30,9 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 
 			// 标签
 			LinkPresets.Tags,
+
+			// 系列
+			LinkPresets.Series,
 		],
 	});
 
@@ -183,6 +186,11 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		name: "随笔",
 		url: "/essays/",
 		icon: "material-symbols:draw",
+	},
+	Series: {
+		name: "系列",
+		url: "/series/",
+		icon: "material-symbols:collections-bookmark",
 	},
 };
 
