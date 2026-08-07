@@ -50,6 +50,105 @@ export const friendsConfig: FriendLink[] = [
 	// 	weight: 8,
 	// 	enabled: true,
 	// },
+
+	{
+	title: "SeanDictionary",
+	imgurl:
+		"",
+	desc: "",
+	siteurl: "seandictionary.top",
+	tags: ["Blog"],
+	weight: 10, 
+	enabled: true, 
+	},
+
+	{
+	title: "y11han",
+	imgurl:
+		"https://q.qlogo.cn/g?b=qq&nk=2172029629&s=640",
+	desc: "",
+	siteurl: "blog.y11han.icu",
+	tags: ["Blog"],
+	weight: 10, 
+	enabled: true, 
+	},
+
+	{
+	title: "cube",
+	imgurl:
+		"https://cube1345.github.io/img/lilisi1.jpg",
+	desc: "",
+	siteurl: "cube1345.github.io",
+	tags: ["Blog"],
+	weight: 10, 
+	enabled: true, 
+	},
+
+	{
+	title: "emmm",
+	imgurl:
+		"https://avatars.githubusercontent.com/u/86453687?v=4",
+	desc: "",
+	siteurl: "blog.zzemy.top",
+	tags: ["Blog"],
+	weight: 10, 
+	enabled: true, 
+	},
+
+	{
+	title: "s3loy",
+	imgurl:
+		"https://blog.s3loy.top/images/1.jpg",
+	desc: "",
+	siteurl: "blog.s3loy.top",
+	tags: ["Blog"],
+	weight: 10, 
+	enabled: true, 
+	},
+
+	{
+	title: "io-wy",
+	imgurl:
+		"https://io-wy.github.io//avatar.jpg",
+	desc: "",
+	siteurl: "io-wy.github.io",
+	tags: ["Blog"],
+	weight: 10, 
+	enabled: true, 
+	},
+
+	{
+	title: "Ptilopsis",
+	imgurl:
+		"https://blog.ptilopsis.cn/images/avatar.png",
+	desc: "",
+	siteurl: "blog.ptilopsis.cn",
+	tags: ["Blog"],
+	weight: 10, 
+	enabled: true, 
+	},
+
+	{
+	title: "PureStream",
+	imgurl:
+		"https://marblue.pink/img/purestream.jpg",
+	desc: "",
+	siteurl: "marblue.pink",
+	tags: ["Blog"],
+	weight: 10, 
+	enabled: true, 
+	},
+
+	// {
+	// title: "",
+	// imgurl:
+	// 	"",
+	// desc: "",
+	// siteurl: "",
+	// tags: ["Blog"],
+	// weight: 10, 
+	// enabled: true, 
+	// },
 ];
 
 // 获取启用的友链并进行排序
