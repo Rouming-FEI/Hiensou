@@ -67,7 +67,7 @@ export const friendsConfig: FriendLink[] = [
 	imgurl:
 		"https://q.qlogo.cn/g?b=qq&nk=2172029629&s=640",
 	desc: "",
-	siteurl: "blog.y11han.icu",
+	siteurl: "https://blog.y11han.icu",
 	tags: ["Blog"],
 	weight: 10, 
 	enabled: true, 
@@ -78,7 +78,7 @@ export const friendsConfig: FriendLink[] = [
 	imgurl:
 		"https://cube1345.github.io/img/lilisi1.jpg",
 	desc: "",
-	siteurl: "cube1345.github.io",
+	siteurl: "https://cube1345.github.io",
 	tags: ["Blog"],
 	weight: 10, 
 	enabled: true, 
@@ -89,7 +89,7 @@ export const friendsConfig: FriendLink[] = [
 	imgurl:
 		"https://avatars.githubusercontent.com/u/86453687?v=4",
 	desc: "",
-	siteurl: "blog.zzemy.top",
+	siteurl: "https://blog.zzemy.top",
 	tags: ["Blog"],
 	weight: 10, 
 	enabled: true, 
@@ -100,7 +100,7 @@ export const friendsConfig: FriendLink[] = [
 	imgurl:
 		"https://blog.s3loy.top/images/1.jpg",
 	desc: "",
-	siteurl: "blog.s3loy.top",
+	siteurl: "https://blog.s3loy.top",
 	tags: ["Blog"],
 	weight: 10, 
 	enabled: true, 
@@ -111,7 +111,7 @@ export const friendsConfig: FriendLink[] = [
 	imgurl:
 		"https://io-wy.github.io//avatar.jpg",
 	desc: "",
-	siteurl: "io-wy.github.io",
+	siteurl: "https://io-wy.github.io",
 	tags: ["Blog"],
 	weight: 10, 
 	enabled: true, 
@@ -122,7 +122,7 @@ export const friendsConfig: FriendLink[] = [
 	imgurl:
 		"https://blog.ptilopsis.cn/images/avatar.png",
 	desc: "",
-	siteurl: "blog.ptilopsis.cn",
+	siteurl: "https://blog.ptilopsis.cn",
 	tags: ["Blog"],
 	weight: 10, 
 	enabled: true, 
@@ -133,7 +133,7 @@ export const friendsConfig: FriendLink[] = [
 	imgurl:
 		"https://marblue.pink/img/purestream.jpg",
 	desc: "",
-	siteurl: "marblue.pink",
+	siteurl: "https://marblue.pink",
 	tags: ["Blog"],
 	weight: 10, 
 	enabled: true, 
@@ -144,7 +144,7 @@ export const friendsConfig: FriendLink[] = [
 	imgurl:
 		"https://blog.symb0x76.top/img/avatar.webp",
 	desc: "",
-	siteurl: "blog.symb0x76.top",
+	siteurl: "https://blog.symb0x76.top",
 	tags: ["Blog"],
 	weight: 10, 
 	enabled: true, 
