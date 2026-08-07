@@ -139,16 +139,16 @@ export const friendsConfig: FriendLink[] = [
 	enabled: true, 
 	},
 
-	// {
-	// title: "",
-	// imgurl:
-	// 	"",
-	// desc: "",
-	// siteurl: "",
-	// tags: ["Blog"],
-	// weight: 10, 
-	// enabled: true, 
-	// },
+	{
+	title: "Symb0x76",
+	imgurl:
+		"https://blog.symb0x76.top/img/avatar.webp",
+	desc: "",
+	siteurl: "blog.symb0x76.top",
+	tags: ["Blog"],
+	weight: 10, 
+	enabled: true, 
+	},
 ];
 
 // 获取启用的友链并进行排序
