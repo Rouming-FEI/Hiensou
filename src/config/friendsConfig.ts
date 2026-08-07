@@ -56,7 +56,7 @@ export const friendsConfig: FriendLink[] = [
 	imgurl:
 		"",
 	desc: "",
-	siteurl: "seandictionary.top",
+	siteurl: "https://seandictionary.top",
 	tags: ["Blog"],
 	weight: 10, 
 	enabled: true, 
