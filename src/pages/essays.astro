@@ -8,8 +8,8 @@ const description = "随性而写，记录生活中的点滴感悟";
 <MainGridLayout title={title} description={description}>
   <div id="essays-container" class="onload-animation">
   </div>
-</MainGridLayout>
 
+<!-- Keep the inline initializer inside the content replaced by Swup. -->
 <script is:inline>
   (function () {
   const MONTH_NAMES = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
@@ -101,6 +101,7 @@ const description = "随性而写，记录生活中的点滴感悟";
     } catch (err) {
       console.error("加载随笔失败:", err);
     } finally {
+      loading = false;
       spinner.remove();
     }
   }
@@ -134,5 +135,10 @@ const description = "随性而写，记录生活中的点滴感悟";
   }
 
   initEssays();
+  document.addEventListener("astro:before-swap", () => {
+    hasMore = false;
+    observer?.disconnect();
+  }, { once: true });
   })();
 </script>
+</MainGridLayout>
