@@ -71,9 +71,11 @@ if (processedImage) {
 	);
 	if (isLocal) {
 		const basePath = getFileDirFromPath(entry.filePath || "");
-		const files = import.meta.glob<ImageMetadata>("../../**", {
-			import: "default",
-		});
+		// Only import images; content repositories can also contain manager code.
+		const files = import.meta.glob<ImageMetadata>(
+			"../../**/*.{jpeg,jpg,png,tiff,webp,gif,svg,avif}",
+			{ import: "default" },
+		);
 		let normalizedPath = path
 			.normalize(path.join("../../", basePath, processedImage))
 			.replace(/\\/g, "/");
@@ -95,9 +97,10 @@ if (posterAvatarUrl) {
 		posterAvatarUrl.startsWith("data:")
 	);
 	if (isLocalAvatar) {
-		const files = import.meta.glob<ImageMetadata>("../../**", {
-			import: "default",
-		});
+		const files = import.meta.glob<ImageMetadata>(
+			"../../**/*.{jpeg,jpg,png,tiff,webp,gif,svg,avif}",
+			{ import: "default" },
+		);
 		const normalizedPath = path
 			.normalize(path.join("../../", posterAvatarUrl))
 			.replace(/\\/g, "/");
