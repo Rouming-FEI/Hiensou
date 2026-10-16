@@ -23,10 +23,10 @@ export const friendsPageConfig: FriendsPageConfig = {
 // 友链配置
 export const friendsConfig: FriendLink[] = [
 	// {
-	// 	title: "夏夜流萤",
+	// 	title: "废江流",
 	// 	imgurl:
-	// 		"https://weavatar.com/avatar/d252655d40d6874417a720bad0a6c5f77f8f6a1fd2f882f8f338402dc37e4190?s=640",
-	// 	desc: "飞萤之火自无梦的长夜亮起，绽放在终竟的明天。",
+	// 		"https://blog.rouming-fei.top/assets/images/avatar/avatar.jpg",
+	// 	desc: "废江流的博客",
 	// 	siteurl: "https://blog.example.com",
 	// 	tags: ["Blog"],
 	// 	weight: 10, // 权重，数字越大排序越靠前
@@ -55,7 +55,7 @@ export const friendsConfig: FriendLink[] = [
 	title: "SeanDictionary",
 	imgurl:
 		"",
-	desc: "",
+	desc: "安全爷就是爷",
 	siteurl: "https://seandictionary.top",
 	tags: ["Blog"],
 	weight: 10, 
@@ -77,7 +77,7 @@ export const friendsConfig: FriendLink[] = [
 	title: "cube",
 	imgurl:
 		"https://cube1345.github.io/img/lilisi1.jpg",
-	desc: "",
+	desc: "软硬全栈大神",
 	siteurl: "https://cube1345.github.io",
 	tags: ["Blog"],
 	weight: 10, 
@@ -99,7 +99,7 @@ export const friendsConfig: FriendLink[] = [
 	title: "s3loy",
 	imgurl:
 		"https://blog.s3loy.top/images/1.jpg",
-	desc: "",
+	desc: "arc大手子",
 	siteurl: "https://blog.s3loy.top",
 	tags: ["Blog"],
 	weight: 10, 
@@ -110,7 +110,7 @@ export const friendsConfig: FriendLink[] = [
 	title: "io-wy",
 	imgurl:
 		"https://io-wy.github.io//avatar.jpg",
-	desc: "",
+	desc: "大神",
 	siteurl: "https://io-wy.github.io",
 	tags: ["Blog"],
 	weight: 10, 
@@ -121,7 +121,7 @@ export const friendsConfig: FriendLink[] = [
 	title: "Ptilopsis",
 	imgurl:
 		"https://blog.ptilopsis.cn/images/avatar.png",
-	desc: "",
+	desc: "虫需云力白勺虫且",
 	siteurl: "https://blog.ptilopsis.cn",
 	tags: ["Blog"],
 	weight: 10, 
@@ -143,12 +143,23 @@ export const friendsConfig: FriendLink[] = [
 	title: "Symb0x76",
 	imgurl:
 		"https://blog.symb0x76.top/img/avatar.webp",
-	desc: "",
+	desc: "wmc？！",
 	siteurl: "https://blog.symb0x76.top",
 	tags: ["Blog"],
 	weight: 10, 
 	enabled: true, 
 	},
+
+	{
+	title: "朔尘",
+	imgurl:
+		"https://syzigrain.com/assets/images/avatar/avatar.jpg",
+	desc: "摄影大触！",
+	siteurl: "https://syzigrain.com/",
+	tags: ["Blog"],
+	weight: 10, 
+	enabled: true, 
+	}
 ];
 
 // 获取启用的友链并进行排序
