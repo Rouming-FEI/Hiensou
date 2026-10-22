@@ -55,7 +55,7 @@ export const friendsConfig: FriendLink[] = [
 	title: "SeanDictionary",
 	imgurl:
 		"",
-	desc: "安全爷就是爷",
+	desc: "",
 	siteurl: "https://seandictionary.top",
 	tags: ["Blog"],
 	weight: 10, 
@@ -77,7 +77,7 @@ export const friendsConfig: FriendLink[] = [
 	title: "cube",
 	imgurl:
 		"https://cube1345.github.io/img/lilisi1.jpg",
-	desc: "软硬全栈大神",
+	desc: "",
 	siteurl: "https://cube1345.github.io",
 	tags: ["Blog"],
 	weight: 10, 
@@ -99,7 +99,7 @@ export const friendsConfig: FriendLink[] = [
 	title: "s3loy",
 	imgurl:
 		"https://blog.s3loy.top/images/1.jpg",
-	desc: "arc大手子",
+	desc: "",
 	siteurl: "https://blog.s3loy.top",
 	tags: ["Blog"],
 	weight: 10, 
@@ -110,7 +110,7 @@ export const friendsConfig: FriendLink[] = [
 	title: "io-wy",
 	imgurl:
 		"https://io-wy.github.io//avatar.jpg",
-	desc: "大神",
+	desc: "",
 	siteurl: "https://io-wy.github.io",
 	tags: ["Blog"],
 	weight: 10, 
@@ -121,7 +121,7 @@ export const friendsConfig: FriendLink[] = [
 	title: "Ptilopsis",
 	imgurl:
 		"https://blog.ptilopsis.cn/images/avatar.png",
-	desc: "虫需云力白勺虫且",
+	desc: "",
 	siteurl: "https://blog.ptilopsis.cn",
 	tags: ["Blog"],
 	weight: 10, 
@@ -143,7 +143,7 @@ export const friendsConfig: FriendLink[] = [
 	title: "Symb0x76",
 	imgurl:
 		"https://blog.symb0x76.top/img/avatar.webp",
-	desc: "wmc？！",
+	desc: "",
 	siteurl: "https://blog.symb0x76.top",
 	tags: ["Blog"],
 	weight: 10, 
@@ -154,7 +154,7 @@ export const friendsConfig: FriendLink[] = [
 	title: "朔尘",
 	imgurl:
 		"https://syzigrain.com/assets/images/avatar/avatar.jpg",
-	desc: "摄影大触！",
+	desc: "",
 	siteurl: "https://syzigrain.com/",
 	tags: ["Blog"],
 	weight: 10, 
